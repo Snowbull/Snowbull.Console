@@ -25,9 +25,10 @@ using System;
 using System.Net;
 using System.Reflection;
 using System.Collections.Generic;
+using Snowbull;
 using Akka.Actor;
 
-namespace Snowbull {
+namespace Snowbull.Console {
     class Program {
         public static void Main(string[] args) {
 			Configuration.SnowbullConfigurationSection config = Configuration.SnowbullConfigurationSection.GetConfiguration();
@@ -44,7 +45,7 @@ namespace Snowbull {
 				instance.Server.Bind(new IPEndPoint(IPAddress.IPv6Any, int.Parse(s.Port)));
 				instances[i] = instance;
 			}
-			Console.ReadLine();
+			System.Console.ReadLine();
         }
     }
 }
