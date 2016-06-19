@@ -25,23 +25,24 @@ using System;
 using System.Net;
 using System.Reflection;
 using System.Collections.Generic;
-using Snowbull;
 using Akka.Actor;
+using Core = Snowbull.Core;
+using Configuration = Snowbull.Core.Configuration;
 
 namespace Snowbull.Console {
     class Program {
         public static void Main(string[] args) {
-			Configuration.SnowbullConfigurationSection config = Configuration.SnowbullConfigurationSection.GetConfiguration();
-			Snowbull[] instances = new Snowbull[config.Servers.Count];
+            Configuration.SnowbullConfigurationSection config = Configuration.SnowbullConfigurationSection.GetConfiguration();
+            Core.Snowbull[] instances = new Core.Snowbull[config.Servers.Count];
 			for(int i = 0; i < config.Servers.Count; i++) {
-				Configuration.Server s = config.Servers[i];
-				Dictionary<string, ZoneInitialiser> zones = new Dictionary<string, ZoneInitialiser>();
-				foreach(Configuration.Zone zone in s.Zones) {
+                Core.Configuration.Server s = config.Servers[i];
+				Dictionary<string, Core.ZoneInitialiser> zones = new Dictionary<string, Core.ZoneInitialiser>();
+                foreach(Core.Configuration.Zone zone in s.Zones) {
 					Type za = Type.GetType(zone.Type);
-					ConstructorInfo constructor = za.GetConstructor(new Type[] { typeof(string), typeof(IActorContext), typeof(Server) });
-					zones.Add(zone.Name, (context, server) => (Zone) constructor.Invoke(new object[] { zone.Name, context, server }));
+					ConstructorInfo constructor = za.GetConstructor(new Type[] { typeof(string), typeof(IActorContext), typeof(Core.Server) });
+					zones.Add(zone.Name, (context, server) => (Core.Zone) constructor.Invoke(new object[] { zone.Name, context, server }));
 				}
-				Snowbull instance = new Snowbull(s.Name, zones);
+                Core.Snowbull instance = new Core.Snowbull(s.Name, zones);
 				instance.Server.Bind(new IPEndPoint(IPAddress.IPv6Any, int.Parse(s.Port)));
 				instances[i] = instance;
 			}
