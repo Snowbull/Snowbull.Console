@@ -43,7 +43,7 @@ namespace Snowbull.Console {
 					zones.Add(zone.Name, (context, server) => (Core.Zone) constructor.Invoke(new object[] { zone.Name, context, server }));
 				}
                 Core.Snowbull instance = new Core.Snowbull(s.Name, zones);
-				instance.Server.Bind(new IPEndPoint(IPAddress.IPv6Any, int.Parse(s.Port)));
+				instance.Server.Bind(new IPEndPoint(IPAddress.Any, int.Parse(s.Port)));
 				instances[i] = instance;
 			}
 			System.Console.ReadLine();
