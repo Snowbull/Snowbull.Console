@@ -69,5 +69,8 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="app.config" />
+    <None Include="clubPenguin.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
